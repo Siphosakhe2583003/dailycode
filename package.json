@@ -6,6 +6,12 @@
   "engines": {
     "vscode": "^1.95.0"
   },
+  "icon": "images/dailycode-icon.png",
+  "author": "SiphosakheMkhwanazi",
+  "publisher": "SiphosakheMkhwanazi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Siphosakhe2583003/dailycode"},
   "categories": [
     "Other"
   ],

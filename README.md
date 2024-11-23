@@ -1,3 +1,4 @@
+![DailyCode Icon](./images/dailycode-icon.png)
 # DailyCode Extension
 
 DailyCode is a Visual Studio Code extension designed to help you track and maintain a coding streak, motivating you to code every day. It provides a streak counter in the status bar and offers intuitive commands for streak management, making it a fun and productive addition to your coding workflow.
