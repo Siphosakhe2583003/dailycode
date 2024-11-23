@@ -43,7 +43,7 @@ No external dependencies are required. DailyCode works out of the box with Visua
    - Click "Install" to add the extension to your VS Code.
 
 2. **Manual Installation**:
-   - Clone the repository: `git clone https://github.com/yourusername/dailycode-extension.git`.
+   - Clone the repository: `git clone https://github.com/Siphosakhe2583003/dailycode`.
    - Open the folder in VS Code and run `npm install` to install dependencies.
    - Run the extension using the `Run Extension` launch configuration.
 
