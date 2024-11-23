@@ -22,10 +22,6 @@
       {
         "command": "dailycode.showCodingStreak",
         "title": "DailyCode Show Coding Streak"
-      },
-      {
-        "command": "dailyCode.incrementStreak",
-        "title": "DailyCode Increment Streak"
       }
     ]
   },

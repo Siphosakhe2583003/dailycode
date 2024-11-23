@@ -76,8 +76,9 @@ function activate(context) {
 
 function updateStatusBar(context) {
   let counter = context.globalState.get("dailycode.counter");
+
   counterStatusBar.text = `$(flame) ${counter}`;
-  counterStatusBar.tooltip = `${counter} days streak!`;
+  counterStatusBar.tooltip = `${counter} Day${counter > 1 ? "s" : ""} of Codes Streak!`;
 }
 
 function updateCounter(lastAccessDate, context) {
