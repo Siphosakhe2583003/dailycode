@@ -56,21 +56,6 @@ function activate(context) {
       );
       context.subscriptions.push(resetStreak);
     }
-
-    // if (!commands.includes("dailyCode.incrementStreak")) {
-    //   const incrementStreak = vscode.commands.registerCommand(
-    //     "dailyCode.incrementStreak",
-    //     () => {
-    //       counter++;
-    //       vscode.window.showInformationMessage(
-    //         `Coding streak increased to ${counter} days! 🔥`
-    //       );
-    //       context.globalState.update("dailycode.counter", counter);
-    //       updateStatusBar(context);
-    //     }
-    //   );
-    //   context.subscriptions.push(incrementStreak);
-    // }
   });
 }
 
@@ -78,7 +63,7 @@ function updateStatusBar(context) {
   let counter = context.globalState.get("dailycode.counter");
 
   counterStatusBar.text = `$(flame) ${counter}`;
-  counterStatusBar.tooltip = `${counter} Day${counter > 1 ? "s" : ""} of Codes Streak!`;
+  counterStatusBar.tooltip =  `${counter} day${counter > 1 ? "s" : ""} streak! 🚀`;
 }
 
 function updateCounter(lastAccessDate, context) {
@@ -93,21 +78,28 @@ function updateCounter(lastAccessDate, context) {
     if (lastDate.toDateString() === yesterday.toDateString()) {
       counter++;
       vscode.window.showInformationMessage(
-        `Coding streak increased to ${counter} days! 🔥`
+         `Awesome! Your coding streak is now ${counter} days strong! Keep up the great work! 🔥🚀`
       );
     } else if (lastDate.toDateString() !== today.toDateString()) {
       counter = 1;
       vscode.window.showInformationMessage(
-        "Your coding streak has been reset to 1 day! 😿"
+        "Your streak is starting fresh! Let's hit day 1 again! 💪🚀"
+      );
+    } else if (
+      lastDate.toDateString() === today.toDateString() &&
+      counter === 1
+    ) {
+      vscode.window.showInformationMessage(
+         "Welcome to DailyCode! 🎉 You've just started your coding streak with 1 day! Keep going strong! ✨🚀"
       );
     } else {
       vscode.window.showInformationMessage(
-        `Welcome back! Your coding streak is ${counter} days! 🚀`
+        `Welcome back! You're on a roll with ${counter} days of coding! Keep it going! 💪🚀`
       );
     }
   } else {
     vscode.window.showInformationMessage(
-      "Starting your coding streak: 1 day! 🚀"
+      "Error: lastAccessDate is null. Please report this issue."
     );
   }
 
