@@ -2,7 +2,7 @@
   "name": "dailycode",
   "displayName": "DailyCode",
   "description": "Stay motivated and keep your coding streak alive with DailyCode! Designed to help developers build a daily coding habit, this extension tracks your coding activity across projects, giving you real-time insights into your progress. Whether you're aiming for a personal record or just want to stay consistent.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "engines": {
     "vscode": "^1.95.0"
   },
