@@ -1,4 +1,4 @@
-![DailyCode Icon](./images/dailycode-icon.png)
+![DailyCode Icon](../images/dailycode-icon.png)
 # DailyCode Extension
 
 DailyCode is a Visual Studio Code extension designed to help you track and maintain a coding streak, motivating you to code every day. It provides a streak counter in the status bar and offers intuitive commands for streak management, making it a fun and productive addition to your coding workflow.
@@ -43,7 +43,7 @@ No external dependencies are required. DailyCode works out of the box with Visua
    - Click "Install" to add the extension to your VS Code.
 
 2. **Manual Installation**:
-   - Clone the repository: `git clone https://github.com/Siphosakhe2583003/dailycode`.
+   - Clone the repository: `git clone https://github.com/yourusername/dailycode-extension.git`.
    - Open the folder in VS Code and run `npm install` to install dependencies.
    - Run the extension using the `Run Extension` launch configuration.
 
@@ -126,7 +126,7 @@ If you encounter any issues or have feature suggestions:
 ## Screenshots
 
 ### Status Bar
-![Status Bar](images/status-bar.png)
+![Status Bar](../images/status-bar.png)
 
 ---
 
