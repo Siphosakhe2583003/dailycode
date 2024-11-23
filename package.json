@@ -9,25 +9,39 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "dailycode.helloWorld",
-      "title": "Hello World"
-    }]
+    "commands": [
+      {
+        "command": "dailycode.resetStreak",
+        "title": "DailyCode Reset Streak"
+      },
+      {
+        "command": "dailycode.showCodingStreak",
+        "title": "DailyCode Show Coding Streak"
+      },
+      {
+        "command": "dailyCode.incrementStreak",
+        "title": "DailyCode Increment Streak"
+      }
+    ]
   },
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.95.0",
     "@types/mocha": "^10.0.9",
     "@types/node": "20.x",
-    "eslint": "^9.13.0",
+    "@types/vscode": "^1.95.0",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "assert": "^2.1.0",
+    "eslint": "^9.13.0",
+    "mocha": "^10.8.2",
+    "vscode": "^1.1.37",
+    "vscode-test": "^1.6.1"
   }
 }

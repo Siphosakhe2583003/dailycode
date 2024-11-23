@@ -1,36 +1,128 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
+const vscode = require("vscode");
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+let counterStatusBar;
 
-/**
- * @param {vscode.ExtensionContext} context
- */
 function activate(context) {
+  let lastAccessDate = context.globalState.get(
+    "dailycode.lastAccessDate",
+    new Date()
+  );
+  let counter = context.globalState.get("dailycode.counter", 1);
+  context.globalState.update("dailycode.counter", counter);
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "dailycode" is now active!');
+  // Create a status bar item
+  if (!counterStatusBar) {
+    counterStatusBar = vscode.window.createStatusBarItem(
+      vscode.StatusBarAlignment.Left
+    );
+    counterStatusBar.command = "dailycode.showCodingStreak";
+  }
+  updateCounter(lastAccessDate, context);
+  updateStatusBar(context);
+  counterStatusBar.show();
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('dailycode.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
+  // Ensure the counter key and lastAccessDate key is synchronized
+  context.globalState.setKeysForSync([
+    "dailycode.counter",
+    "dailycode.lastAccessDate",
+  ]);
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from DailyCode!');
-	});
+  // Command to show coding streak
+  // Check if commands are already registered
+  vscode.commands.getCommands().then((commands) => {
+    if (!commands.includes("dailycode.showCodingStreak")) {
+      const showCodingStreak = vscode.commands.registerCommand(
+        "dailycode.showCodingStreak",
+        () => {
+          vscode.window.showInformationMessage(
+            `Your coding streak is ${counter} days! 🚀`
+          );
+        }
+      );
+      context.subscriptions.push(showCodingStreak);
+    }
 
-	context.subscriptions.push(disposable);
+    if (!commands.includes("dailycode.resetStreak")) {
+      const resetStreak = vscode.commands.registerCommand(
+        "dailycode.resetStreak",
+        () => {
+          counter = 1;
+          vscode.window.showInformationMessage(
+            "Your coding streak has been reset."
+          );
+          context.globalState.update("dailycode.counter", counter);
+          updateStatusBar(context);
+        }
+      );
+      context.subscriptions.push(resetStreak);
+    }
+
+    // if (!commands.includes("dailyCode.incrementStreak")) {
+    //   const incrementStreak = vscode.commands.registerCommand(
+    //     "dailyCode.incrementStreak",
+    //     () => {
+    //       counter++;
+    //       vscode.window.showInformationMessage(
+    //         `Coding streak increased to ${counter} days! 🔥`
+    //       );
+    //       context.globalState.update("dailycode.counter", counter);
+    //       updateStatusBar(context);
+    //     }
+    //   );
+    //   context.subscriptions.push(incrementStreak);
+    // }
+  });
 }
 
-// This method is called when your extension is deactivated
-function deactivate() {}
+function updateStatusBar(context) {
+  let counter = context.globalState.get("dailycode.counter");
+  counterStatusBar.text = `$(flame) ${counter}`;
+  counterStatusBar.tooltip = `${counter} days streak!`;
+}
+
+function updateCounter(lastAccessDate, context) {
+  let counter = context.globalState.get("dailycode.counter");
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  if (lastAccessDate) {
+    const lastDate = new Date(lastAccessDate);
+
+    if (lastDate.toDateString() === yesterday.toDateString()) {
+      counter++;
+      vscode.window.showInformationMessage(
+        `Coding streak increased to ${counter} days! 🔥`
+      );
+    } else if (lastDate.toDateString() !== today.toDateString()) {
+      counter = 1;
+      vscode.window.showInformationMessage(
+        "Your coding streak has been reset to 1 day! 😿"
+      );
+    } else {
+      vscode.window.showInformationMessage(
+        `Welcome back! Your coding streak is ${counter} days! 🚀`
+      );
+    }
+  } else {
+    vscode.window.showInformationMessage(
+      "Starting your coding streak: 1 day! 🚀"
+    );
+  }
+
+  context.globalState.update("dailycode.counter", counter);
+  context.globalState.update("dailycode.lastAccessDate", today);
+}
+
+function deactivate() {
+  if (counterStatusBar) {
+    counterStatusBar.dispose();
+  }
+  counterStatusBar = null; // Clear status bar for clean state
+}
 
 module.exports = {
-	activate,
-	deactivate
-}
+  activate,
+  deactivate,
+  updateCounter,
+};
