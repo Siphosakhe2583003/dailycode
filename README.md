@@ -15,7 +15,7 @@ DailyCode is a Visual Studio Code extension designed to help you track and maint
 
 ### 🛠️ Commands
 - **Show Coding Streak (`dailycode.showCodingStreak`)**: Displays your current streak in a popup notification.
-- **Reset Streak (`dailycode.resetStreak`)**: Allows you to manually reset your streak (No one would use this feature🤣).
+- **Reset Streak (`dailycode.resetStreak`)**: Allows you to manually reset your streak (I suggest to never use this🤣).
 
 ### 💾 Persistent Streak Data
 - **Global State Storage**: Your streak count and last access date are securely saved, persisting across sessions.
@@ -41,11 +41,6 @@ No external dependencies are required. DailyCode works out of the box with Visua
 1. **Install from the Marketplace**:
    - Open the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/) and search for "DailyCode."
    - Click "Install" to add the extension to your VS Code.
-
-2. **Manual Installation**:
-   - Clone the repository: `git clone https://github.com/yourusername/dailycode-extension.git`.
-   - Open the folder in VS Code and run `npm install` to install dependencies.
-   - Run the extension using the `Run Extension` launch configuration.
 
 ---
 
@@ -76,7 +71,7 @@ Currently, DailyCode does not include configurable settings. Future updates may 
 
 ## Known Issues
 
-- NO ISSUES YET
+- NO ISSUES FOUND YET
 
 ---
 
@@ -108,7 +103,6 @@ DailyCode includes automated tests for reliable performance:
 
 ### 1.1.0
 - **Improved Testing**: Enhanced test coverage and bug fixes for streak tracking.
-- **Bug Fixes**: Resolved consecutive day tracking issues.
 
 ### 1.0.0
 - **Initial Release**: Fully functional streak tracking, reset functionality, and persistent storage.
