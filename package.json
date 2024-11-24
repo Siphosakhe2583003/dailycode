@@ -23,11 +23,23 @@
     "commands": [
       {
         "command": "dailycode.resetStreak",
-        "title": "DailyCode Reset Streak"
+        "title": "DailyCode: Reset Streak",
+        "description": "Manually reset your coding streak.(NOT REVERSIBLE AND NOT RECOMMENDED)"
       },
       {
         "command": "dailycode.showCodingStreak",
-        "title": "DailyCode Show Coding Streak"
+        "title": "DailyCode: Show Coding Streak",
+        "description": "Show your coding streak in a popup notification."
+      },
+      {
+        "command": "dailycode.setMinCodeChanges",
+        "title": "DailyCode: Set Min Code Changes",
+        "description": "Set the minimum number of code changes to count as a coding day."
+      },
+      {
+        "command": "dailycode.getMinCodeChanges",
+        "title": "DailyCode: Get Min Code Changes",
+        "description": "Get the current minimum number of code changes."
       }
     ]
   },
