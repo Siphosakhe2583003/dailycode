@@ -39,7 +39,8 @@ jobs:
       run: npm test
 
     - name: Publish Extension
-      if: success() && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest'
+      if: success() && (startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master' || github.event_name == 'release' ) && matrix.os == 'ubuntu-latest'
       run: npm run deploy
       env:
         VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        tag: ${{ github.ref_name }}
