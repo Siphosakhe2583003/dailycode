@@ -12,13 +12,15 @@ DailyCode is a Visual Studio Code extension designed to help you track and maint
 - **Automatic Updates**: Tracks your streak based on daily usage.
 - **Missed Days**: Resets the streak automatically if no activity is detected for a day.
 - **Consecutive Days**: Increments your streak for consecutive coding days.
+- **Minimum Code Changes**: Allows users to set a minimum number of code changes required to qualify for a coding day.
 
 ### 🛠️ Commands
 - **Show Coding Streak (`dailycode.showCodingStreak`)**: Displays your current streak in a popup notification.
-- **Reset Streak (`dailycode.resetStreak`)**: Allows you to manually reset your streak (I suggest to never use this🤣).
+- **Reset Streak (`dailycode.resetStreak`)**: Allows you to manually reset your streak.
+- **Set Minimum Code Changes (`dailycode.setMinCodeChanges`)**: Lets you define the minimum number of code changes required to mark a day as active.
 
 ### 💾 Persistent Streak Data
-- **Global State Storage**: Your streak count and last access date are securely saved, persisting across sessions.
+- **Global State Storage**: Your streak count, last access date, and minimum code changes are securely saved, persisting across sessions.
 
 ### ⚡ Status Bar Integration
 - **Flame Icon**: Represents your streak count visually with an accompanying tooltip.
@@ -49,20 +51,23 @@ No external dependencies are required. DailyCode works out of the box with Visua
 1. **Activating DailyCode**:
    - Start coding in Visual Studio Code, and the streak counter will automatically initialize in the status bar.
 
-2. **Viewing Your Streak**:
-   - Use the `dailycode.showCodingStreak` command to see your streak as a popup notification.
+2. **Accessing DailyCode Commands**:
+   - Press `Ctrl + Shift + P` (or `Cmd + Shift + P` on macOS) to open the Command Palette.
+   - Search for "DailyCode" to view all available commands:
+     - **Show Coding Streak**: Displays your current streak in a popup notification.
+     - **Reset Coding Streak**: Resets your streak to 1 manually (not recommended unless needed).
+     - **Set Minimum Code Changes**: Allows you to specify the minimum number of code changes to count as an active day.
 
-3. **Resetting Your Streak**:
-   - If you want to start fresh, run the `dailycode.resetStreak` command.
+3. **Tooltip Information**:
+   - Hover over the status bar item to see a tooltip with details about your current streak.
 
-4. **Tooltip Information**:
-   - Hover over the status bar item to get additional details about your current streak.
-
+4. **Automatic Streak Updates**:
+   - DailyCode automatically tracks your coding activity and updates your streak.
 ---
 
 ## Extension Settings
 
-Currently, DailyCode does not include configurable settings. Future updates may allow:
+Currently, DailyCode does not include customizable settings beyond commands. Future updates may allow:
 - Custom notifications for milestone streaks.
 - Setting streak goals.
 - Changing the reset behavior or streak counting logic.
@@ -71,7 +76,7 @@ Currently, DailyCode does not include configurable settings. Future updates may 
 
 ## Known Issues
 
-- NO ISSUES FOUND YET
+- No known issues at this time.
 
 ---
 
@@ -101,6 +106,10 @@ DailyCode includes automated tests for reliable performance:
 
 ## Release Notes
 
+### 1.1.1
+- **New Feature**: Added `dailycode.setMinCodeChanges` command for setting minimum code changes required for an active coding day.
+- **Enhanced Feedback**: Improved feedback for consecutive streaks and streak resets.
+
 ### 1.1.0
 - **Improved Testing**: Enhanced test coverage and bug fixes for streak tracking.
 
@@ -127,9 +136,10 @@ If you encounter any issues or have feature suggestions:
 ## Roadmap
 
 - **Milestone Notifications**: Celebrate streak milestones like 10, 50, or 100 days.
-- **Customizable Themes**: Allow users to customize the status bar appearance (VS Code has little customization of icons so it's unlikely).
+- **Customizable Themes**: Allow users to customize the status bar appearance.
 - **Enhanced Analytics**: Provide weekly or monthly coding activity reports.
 - **Calendar Feature**: A heatmap-style calendar that visually represents coding activity, highlighting the intensity of coding on specific days.
+
 ---
 
 **Thank you for using DailyCode! Keep coding and stay motivated! 🚀**
