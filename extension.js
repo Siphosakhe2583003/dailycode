@@ -4,37 +4,28 @@ let counterStatusBar;
 let listener;
 let NUM_OF_CHANGES = 0;
 function activate(context) {
-  let lastAccessDate = context.globalState.get(
-    "dailycode.lastAccessDate",
-    new Date()
-  );
-  context.globalState.update("dailycode.lastAccessDate", lastAccessDate);
-
+  let lastAccessDate = context.globalState.get("dailycode.lastAccessDate");
   let counter = context.globalState.get("dailycode.counter", 1);
-  context.globalState.update("dailycode.counter", counter);
-
   let MIN_CODE_CHANGES = context.globalState.get("dailycode.minCodeChanges", 0);
+
+  context.globalState.update("dailycode.lastAccessDate", lastAccessDate);
+  context.globalState.update("dailycode.counter", counter);
   context.globalState.update("dailycode.minCodeChanges", MIN_CODE_CHANGES);
 
   // Create a status bar item
   if (!counterStatusBar) {
-    counterStatusBar = vscode.window.createStatusBarItem(
-      vscode.StatusBarAlignment.Left
-    );
+    counterStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
     counterStatusBar.command = "dailycode.showCodingStreak";
   }
-  if (MIN_CODE_CHANGES === 0) {
+
+  if (MIN_CODE_CHANGES === 0 || new Date(lastAccessDate).toDateString() === new Date().toDateString()) {
     updateCounter(lastAccessDate, context);
-  } else if (
-    new Date(lastAccessDate).toDateString() !== new Date().toDateString()
-  ) {
+  } else {
+    vscode.window.showInformationMessage(`Welcome back! You're on a roll with ${counter} days of coding! Keep it going! 💪🚀`);
     listener = vscode.workspace.onDidChangeTextDocument((event) => {
       let changes = event.contentChanges;
-
       NUM_OF_CHANGES += changes.length;
-      vscode.window.showInformationMessage(
-        `Number of min code changes: ${MIN_CODE_CHANGES}`
-      );
+
       if (NUM_OF_CHANGES >= MIN_CODE_CHANGES) {
         console.log(`Number of changes: ${NUM_OF_CHANGES}`);
         updateCounter(lastAccessDate, context);
@@ -42,9 +33,10 @@ function activate(context) {
         listener.dispose();
       }
     });
-  } else {
-    updateCounter(lastAccessDate, context);
   }
+
+  scheduleMidnightCheck(context);
+
   if (listener) {
     context.subscriptions.push(listener);
   }
@@ -170,13 +162,6 @@ function updateCounter(lastAccessDate, context) {
       vscode.window.showInformationMessage(
         "Your streak is starting fresh! Let's hit day 1 again! 💪🚀"
       );
-    } else if (
-      lastDate.toDateString() === today.toDateString() &&
-      counter === 1
-    ) {
-      vscode.window.showInformationMessage(
-        "Welcome to DailyCode! 🎉 You've just started your coding streak with 1 day! Keep going strong! ✨🚀"
-      );
     } else {
       vscode.window.showInformationMessage(
         `Welcome back! You're on a roll with ${counter} days of coding! Keep it going! 💪🚀`
@@ -184,12 +169,32 @@ function updateCounter(lastAccessDate, context) {
     }
   } else {
     vscode.window.showInformationMessage(
-      "Error: lastAccessDate is null. Please report this issue."
+      "Welcome to DailyCode! 🎉 You've just started your coding streak with 1 day! Keep going strong! ✨🚀"
     );
   }
 
   context.globalState.update("dailycode.counter", counter);
   context.globalState.update("dailycode.lastAccessDate", today);
+}
+
+function scheduleMidnightCheck(context) {
+  const now = new Date();
+  const nextMidnight = new Date(now);
+  nextMidnight.setDate(now.getDate() + 1);
+  nextMidnight.setHours(0, 0, 0, 0); // Set to midnight
+
+
+  const timeUntilMidnight = nextMidnight - now; // Calculate milliseconds until midnight
+  console.error("Midnight reached!, timeUntilMidnight: ", timeUntilMidnight);
+
+  setTimeout(() => {
+    // Midnight reached, update streak
+    updateCounter(context.globalState.get("dailycode.lastAccessDate"), context);
+    updateStatusBar(context);
+    
+    // Reschedule for the next midnight
+    scheduleMidnightCheck(context);
+  }, timeUntilMidnight);
 }
 
 function deactivate() {
