@@ -185,7 +185,6 @@ function scheduleMidnightCheck(context) {
 
 
   const timeUntilMidnight = nextMidnight - now; // Calculate milliseconds until midnight
-  console.error("Midnight reached!, timeUntilMidnight: ", timeUntilMidnight);
 
   setTimeout(() => {
     // Midnight reached, update streak
