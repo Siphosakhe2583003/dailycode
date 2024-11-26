@@ -1,3 +1,5 @@
+import { update } from "three/examples/jsm/libs/tween.module.js";
+
 const vscode = require("vscode");
 
 let counterStatusBar;
@@ -36,6 +38,7 @@ function activate(context) {
   }
 
   scheduleMidnightCheck(context);
+  updateStatusBar(context);
 
   if (listener) {
     context.subscriptions.push(listener);
