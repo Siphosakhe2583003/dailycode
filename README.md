@@ -70,7 +70,6 @@ No external dependencies are required. DailyCode works out of the box with Visua
 Currently, DailyCode does not include customizable settings beyond commands. Future updates may allow:
 - Custom notifications for milestone streaks.
 - Setting streak goals.
-- Changing the reset behavior or streak counting logic.
 
 ---
 

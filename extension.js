@@ -1,5 +1,3 @@
-import { update } from "three/examples/jsm/libs/tween.module.js";
-
 const vscode = require("vscode");
 
 let counterStatusBar;
@@ -16,20 +14,26 @@ function activate(context) {
 
   // Create a status bar item
   if (!counterStatusBar) {
-    counterStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+    counterStatusBar = vscode.window.createStatusBarItem(
+      vscode.StatusBarAlignment.Left
+    );
     counterStatusBar.command = "dailycode.showCodingStreak";
   }
 
-  if (MIN_CODE_CHANGES === 0 || new Date(lastAccessDate).toDateString() === new Date().toDateString()) {
+  if (
+    MIN_CODE_CHANGES === 0 ||
+    new Date(lastAccessDate).toDateString() === new Date().toDateString()
+  ) {
     updateCounter(lastAccessDate, context);
   } else {
-    vscode.window.showInformationMessage(`Welcome back! You're on a roll with ${counter} days of coding! Keep it going! 💪🚀`);
+    vscode.window.showInformationMessage(
+      `Welcome back! You're on a roll with ${counter} days of coding! Keep it going! 💪🚀`
+    );
     listener = vscode.workspace.onDidChangeTextDocument((event) => {
       let changes = event.contentChanges;
       NUM_OF_CHANGES += changes.length;
 
       if (NUM_OF_CHANGES >= MIN_CODE_CHANGES) {
-        console.log(`Number of changes: ${NUM_OF_CHANGES}`);
         updateCounter(lastAccessDate, context);
         NUM_OF_CHANGES = 0;
         listener.dispose();
@@ -141,9 +145,8 @@ function updateStatusBar(context) {
   let counter = context.globalState.get("dailycode.counter");
 
   counterStatusBar.text = `$(flame) ${counter}`;
-  counterStatusBar.tooltip = `${counter} day${
-    counter > 1 ? "s" : ""
-  } streak! 🚀`;
+  counterStatusBar.tooltip = `${counter} day${counter > 1 ? "s" : ""
+    } streak! 🚀`;
 }
 
 function updateCounter(lastAccessDate, context) {
@@ -156,7 +159,7 @@ function updateCounter(lastAccessDate, context) {
     const lastDate = new Date(lastAccessDate);
 
     if (lastDate.toDateString() === yesterday.toDateString()) {
-      counter++;
+      counter += 1;
       vscode.window.showInformationMessage(
         `Awesome! Your coding streak is now ${counter} days strong! Keep up the great work! 🔥🚀`
       );
@@ -186,17 +189,53 @@ function scheduleMidnightCheck(context) {
   nextMidnight.setDate(now.getDate() + 1);
   nextMidnight.setHours(0, 0, 0, 0); // Set to midnight
 
-
   const timeUntilMidnight = nextMidnight - now; // Calculate milliseconds until midnight
 
   setTimeout(() => {
     // Midnight reached, update streak
-    updateCounter(context.globalState.get("dailycode.lastAccessDate"), context);
-    updateStatusBar(context);
-    
+    const MIN_CODE_CHANGES = context.globalState.get(
+      "dailycode.minCodeChanges"
+    );
+
+    if (MIN_CODE_CHANGES === 0)
+      streakReached(
+        context.globalState.get("dailycode.lastAccessDate"),
+        context
+      );
+    else {
+      let NUM_OF_CHANGES = 0;
+      let listener = vscode.workspace.onDidChangeTextDocument((event) => {
+        let changes = event.contentChanges;
+        NUM_OF_CHANGES += changes.length;
+
+        if (NUM_OF_CHANGES >= MIN_CODE_CHANGES) {
+          streakReached(
+            context.globalState.get("dailycode.lastAccessDate"),
+            context
+          );
+          NUM_OF_CHANGES = 0;
+          listener.dispose();
+        }
+      });
+    }
+
     // Reschedule for the next midnight
     scheduleMidnightCheck(context);
   }, timeUntilMidnight);
+}
+function streakReached(lastAccessDate, context) {
+  let counter = context.globalState.get("dailycode.counter") + 1;
+  context.globalState.update("dailycode.counter", counter);
+  vscode.window.showInformationMessage(
+    "Your coding streak is now " +
+    counter +
+    " days strong! Keep up the great work! 🔥🚀"
+  );
+  context.globalState.update(
+    "dailycode.lastAccessDate",
+    new Date().toDateString()
+  );
+  updateStatusBar(context);
 }
 
 function deactivate() {
@@ -210,4 +249,7 @@ module.exports = {
   activate,
   deactivate,
   updateCounter,
+  scheduleMidnightCheck,
+  updateStatusBar,
+  streakReached,
 };
