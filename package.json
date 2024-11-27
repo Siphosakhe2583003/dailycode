@@ -57,7 +57,6 @@
     "@vscode/vsce": "^3.2.1",
     "assert": "^2.1.0",
     "eslint": "^9.13.0",
-    "mocha": "^10.8.2",
     "vscode": "^1.1.37",
     "vscode-test": "^1.6.1"
   }
